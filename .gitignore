@@ -1,5 +1,7 @@
-/vendor/
-node_modules/
+/.idea
+/vendor
+/node_modules/
+/composer.lock
 npm-debug.log
 yarn-error.log
 

@@ -1,0 +1,1 @@
+#  Генератор для sitemap для Laravel
