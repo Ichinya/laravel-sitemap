@@ -1,22 +1,23 @@
 {
-  "name": "ichinya/laravel-sitemap",
-  "description": "sitemap",
-  "type": "package",
-  "license": "MIT",
-  "version": "0.0.1",
-  "autoload": {
-    "psr-4": {
-      "Ichinya\\LaravelSitemap\\": "src/"
-    }
-  },
-  "authors": [
-    {
-      "name": "Ichi",
-      "email": "info@ichiblog.ru"
-    }
-  ],
-  "require": {
-    "php": ">=7.4.0"
-  },
-  "minimum-stability": "dev"
+    "name": "ichinya/laravel-sitemap",
+    "description": "sitemap",
+    "type": "package",
+    "license": "MIT",
+    "version": "0.0.1",
+    "autoload": {
+        "psr-4": {
+            "Ichinya\\LaravelSitemap\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ichi",
+            "email": "info@ichiblog.ru"
+        }
+    ],
+    "require": {
+        "php": ">=7.4.0",
+        "laravel/framework": "6.*|7.*|8.*"
+    },
+    "minimum-stability": "dev"
 }
