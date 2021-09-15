@@ -12,9 +12,7 @@ class RouteServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->configureRateLimiting();
-
-        $path = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, __DIR__ . '/../route/web.php');
+       $path = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, __DIR__ . '/../route/web.php');
 
         $this->routes(function () use ($path) {
             Route::middleware('web')
@@ -22,10 +20,4 @@ class RouteServiceProvider extends ServiceProvider
         });
     }
 
-    protected function configureRateLimiting()
-    {
-        RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60);
-        });
-    }
 }

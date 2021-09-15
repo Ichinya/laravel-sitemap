@@ -8,65 +8,30 @@ use Illuminate\Support\Str;
 
 class Sitemap
 {
-    /** @var SitemapCore */
-    protected $sitemap;
 
-    public function __construct($changefreq = 'weekly', $priority = 0.5)
+    /** @var SitemapUrls */
+    private $sitemapUrls;
+
+    private function __construct(SitemapUrls $sitemapUrls)
     {
-        $this->sitemap = new SitemapCore($changefreq, $priority);
+        $this->sitemapUrls = $sitemapUrls;
     }
 
-    public function addModelClass($class, $updated_at = 'updated_at', $parameterRoute = 'slug')
+    public static function create($sitemapUrls)
     {
-        $model = new $class;
-        $routeName = Str::lower(basename($class));
-        $this->addListLoop($model::all(), $routeName, $updated_at, $parameterRoute);
-        return $this;
-    }
-
-    public function addModel($model, $routeName, $updated_at = 'updated_at', $parameterRoute = 'slug')
-    {
-        $this->addListLoop($model, $routeName, $updated_at, $parameterRoute);
-        return $this;
-    }
-
-    private function addListLoop($items, $routeName, $updated_at = 'updated_at', $parameterRoute = 'slug')
-    {
-        $this->sitemap->setGroup($routeName);
-        foreach ($items as $item) {
-            if ($updated_at instanceof Carbon) {
-                $dt = $updated_at;
-            } elseif (!isset($updated_at)) {
-                $dt = Carbon::createFromFormat('Y-m-d H:i:s', $item->{$updated_at});
-            } else {
-                $dt = now();
-            }
-            $this->sitemap->addUrl(route($routeName, $item->{$parameterRoute}), $dt->timestamp);
-        }
-    }
-
-    public function addUrl($loc, $lastmod = null, $changefreq = null, $priority = null)
-    {
-        $this->sitemap->addUrl($loc, Carbon::parse($lastmod)->timestamp, $changefreq, $priority);
-        return $this;
-    }
-
-    public function getList()
-    {
-        return $this->sitemap->getList();
-    }
-
-    public function setGroup($name)
-    {
-        $this->sitemap->setGroup($name);
-        return $this;
+        return new Sitemap($sitemapUrls);
     }
 
     public function render()
     {
-        $d = config('sitemap.test');
-        dd($d);
-        return view('ichi-sitemap::sitemap', ['urls' => $d]);
+        $list = $this->sitemapUrls->getList();
+        $listGroup = $this->sitemapUrls->getListGroup();
+        if (!empty($listGroup)) {
+            dd($listGroup);
+            $listGroup['other'] = $list;
+            return view('ichi-sitemap::sitemapIndex.index', ['sitemaps' => $listGroup]);
+        }
+        return view('ichi-sitemap::sitemap', ['urls' => $list]);
     }
 
 }

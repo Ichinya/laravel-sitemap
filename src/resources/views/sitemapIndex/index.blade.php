@@ -4,6 +4,6 @@
 {!!  $xml !!}
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
     @foreach($sitemaps as $sitemap)
-        @yield('sitemap')
+        @include('ichi-sitemap::sitemapIndex.sitemap')
     @endforeach
 </sitemapindex>

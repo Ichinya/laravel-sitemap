@@ -1,6 +1,7 @@
 <?php
 
+use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
-Route::redirect('/sitemap.xml', Storage::url('sitemap.xml'), 301);
+//Route::get('/sitemap/xml', [SitemapController::class, 'index'])->name('sitemap.xml');
