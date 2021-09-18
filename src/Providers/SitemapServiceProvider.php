@@ -25,8 +25,8 @@ class SitemapServiceProvider extends ServiceProvider
 
     protected function providers()
     {
-        $this->app->register(CommandServiceProvider::class);
-        $this->app->register(RouteServiceProvider::class);
+//        $this->app->register(CommandServiceProvider::class);
+//        $this->app->register(RouteServiceProvider::class);
     }
 
 }
