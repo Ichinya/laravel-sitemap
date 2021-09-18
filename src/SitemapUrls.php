@@ -4,6 +4,7 @@ namespace Ichinya\LaravelSitemap;
 
 use Ichinya\SitemapGenerator\Sitemap as SitemapCore;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
 class SitemapUrls
@@ -19,8 +20,10 @@ class SitemapUrls
     public function addModelClass($class, $updated_at = 'updated_at')
     {
         $model = new $class;
-        $routeName = Str::lower(basename($class));
-        $this->addListLoop($model::all(), $routeName, $updated_at);
+        $routeName = Str::lower(basename($class)) . '.show';
+        if (Route::has($routeName)) {
+            $this->addListLoop($model::all(), $routeName, $updated_at);
+        }
         return $this;
     }
 
@@ -65,7 +68,9 @@ class SitemapUrls
     public function getList()
     {
         return $this->sitemap->getList();
-    }public function getListGroup()
+    }
+
+    public function getListGroup()
     {
         return $this->sitemap->getListGroup();
     }

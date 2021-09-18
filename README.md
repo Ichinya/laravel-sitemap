@@ -2,7 +2,7 @@
 
 [comment]: <> (прописать в config.app)
 
-## Устновка
+## Установка
 
 Регистрируем в  `config/app.php` в разделе `providers[]`. Примерно так:
 
@@ -40,15 +40,18 @@ Route::get('/sitemaps.xml', [SitemapController::class, 'index']);
         // можно указать значения по умолчанию $changefreq = 'weekly', $priority = 0.5
         $sitemapUrsl = new \Ichinya\LaravelSitemap\SitemapUrls('weekly', 0.5);
      
-        $sitemapUrsl->addModel($article, 'article'); // второй параметр имя роута
-        $sitemapUrsl->addModelClass(\App\Models\Page::class) // имя роута будет page
+        $sitemapUrsl->addModel($article, 'article.show'); // второй параметр имя роута, с помощью которого генерируютя ссылки
+        $sitemapUrsl->addModelClass(\App\Models\Page::class) // имя роута будет page.show
+        
         // при добавлении модели можно указать поле с датой следующим параметром.
-        $sitemapUrsl->addModelClass(\App\Models\StaticPage::class, 'created_at') // имя роута будет page
+        $sitemapUrsl->addModelClass(\App\Models\StaticPage::class, 'created_at')
         
         $sitemapUrsl
             ->addUrl(route('main'), time())
-            ->addUrl(route('categories.edit'), time()); // добавляем ссылки на различные страницы
+            ->addUrl(route('categories.edit', time()) // добавляем ссылки на различные страницы
             ->addUrl('/rules', time(), 'weekly', 0.5); // добавляем ссылки на различные страницы
+        // время можно указать в timestamp, через Carbon, объектом DateTime или строкой 
+
 
         $sitemap = Sitemap::create($sitemapUrsl); // ядро ссылок собрали, теперь отправляем на создание
 

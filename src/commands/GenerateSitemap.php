@@ -1,6 +1,6 @@
 <?php
 
-namespace Ichinya\LaravelSitemap\Commands;
+namespace Ichinya\LaravelSitemap\commands;
 
 use Illuminate\Console\Command;
 
