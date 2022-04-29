@@ -2,6 +2,7 @@
 
 namespace Ichinya\LaravelSitemap\commands;
 
+use Ichinya\LaravelSitemap\Sitemap;
 use Illuminate\Console\Command;
 
 class GenerateSitemap extends Command
@@ -13,7 +14,7 @@ class GenerateSitemap extends Command
     public function handle()
     {
         dispatch(function () {
-            SitemapGenerator::create(config('app.url'))
+            Sitemap::generate()
                 ->writeToFile(public_path('sitemap.xml'));
         })->onQueue('low');
     }

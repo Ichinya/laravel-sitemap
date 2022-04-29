@@ -12,7 +12,7 @@ class RouteServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-       $path = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, __DIR__ . '/../route/web.php');
+        $path = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, __DIR__ . '/../route/web.php');
 
         $this->routes(function () use ($path) {
             Route::middleware('web')
