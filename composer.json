@@ -1,24 +1,43 @@
 {
     "name": "ichinya/laravel-sitemap",
-    "description": "sitemap",
-    "type": "package",
+    "description": "Create and generate sitemaps with ease",
+    "keywords": [
+        "sitemap",
+        "laravel-sitemap"
+    ],
+    "version": "1.0.0",
+    "homepage": "https://github.com/ichinya/laravel-sitemap",
     "license": "MIT",
-    "version": "0.1.2",
-    "autoload": {
-        "psr-4": {
-            "Ichinya\\LaravelSitemap\\": "src/"
-        }
-    },
     "authors": [
         {
             "name": "Ichi",
-            "email": "info@ichiblog.ru"
+            "email": "info@ichiblog.ru",
+            "homepage": "https://ichiblog.ru",
+            "role": "Developer"
         }
     ],
-    "require": {
-        "php": ">=7.4.0",
-        "laravel/framework": "6.*|7.*|8.*",
-        "ichinya/sitemap-generator": "*"
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ichinya\\LaravelSitemap\\Providers\\SitemapServiceProvider"
+            ]
+        }
     },
-    "minimum-stability": "dev"
+    "require": {
+        "php": "^8.0",
+        "ichinya/sitemap-generator": "^0.9.0"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "Ichinya\\LaravelSitemap\\": "src"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    }
 }

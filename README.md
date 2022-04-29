@@ -1,27 +1,80 @@
 # Генератор для sitemap для Laravel
 
-[comment]: <> (прописать в config.app)
-
 ## Установка
 
-Регистрируем в  `config/app.php` в разделе `providers[]`. Примерно так:
-
-```php 
-'providers' => [
-    /*
-    * Laravel Framework Service Providers…
-    */
-    Illuminate\Auth\AuthServiceProvider::class,
-    //.. Other providers
-    
-    Ichinya\LaravelSitemap\Providers\SitemapServiceProvider::class,
-    
-    ],
-```
-
-[comment]: <> (php artisan vendor:publish --provider=Ichinya\LaravelSitemap\Providers\SitemapServiceProvider)
+`composer require ichinya/laravel-sitemap`
 
 ## Использование
+
+### Генератор
+
+Добавляем в расписание выполнение кода `\Ichinya\LaravelSitemap\Sitemap::generate()->writeToFile();`, в методе можно указать другое имя файла
+
+При выполнении кода будет создан файл `sitemap.xml` в корне сайта, который будет доступен по ссылке http://site.ru/sitemap.xml
+
+Чтобы произошла магия, нужно просто прописать у нужных моделей интерфейс `Ichinya\LaravelSitemap\Sitemapable;`
+
+То есть должно получиться модель вида:
+
+```php 
+<?php
+
+namespace App\Models;
+
+use Ichinya\LaravelSitemap\Sitemapable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Post extends Model implements Sitemapable
+{
+    use HasFactory;
+}
+```
+
+При этом будут в данном случае использоваться маршруты `posts.index` и `posts.show` для их замены стандарных нужно прописать:
+
+```php
+// маршрут для списка, в примере posts.index
+public ?string $sitemap_model_route_list = null;
+// маршрут для каждой позиции в примере это posts.show
+public ?string $sitemap_model_route_item = null;
+```
+
+Или добавить методы:
+```php 
+    public function getSitemapModelRouteItem(): string
+    {
+        return $this->sitemap_model_route_item;
+    }
+    
+    public function getSitemapModelRouteList(): string
+    {
+        return $this->sitemap_model_route_list;
+    }
+```
+
+Отметка времени будет браться из поля `updated_at`, соответственно оно меняется:
+```php
+    // можно указанть другое поле с отметкой времени, например published_at. Если поле данное поле у позиции будет null, то она не попадет в карту. Данное поведение можно поменять, смотрите ниже 
+    public string $sitemap_datetime = 'updated_at';
+    
+    // можно использовать метод для использования любой логики
+    public function getSitemapDatetime(): string
+    {
+        return $this->sitemap_datetime;
+    }
+```
+
+Получения списка позиций:
+```php
+    // тут можно написать просто запрос, какие позиции попадут в карту
+    public function getSitemapItems()
+    {
+        return self::whereNotNull($this->getSitemapDatetime())->get();
+    }
+```
+
+### Стандартное использование 
 
 Добавляем маршрут
 
@@ -60,7 +113,6 @@ Route::get('/sitemaps.xml', [SitemapController::class, 'index']);
 ```
 
 # ToDo
-* маршруты создавать в пакете
 * создавать несколько файлов
-* использование кеш
+* использования конфига
 * автогенерация в определенное время или по команде
