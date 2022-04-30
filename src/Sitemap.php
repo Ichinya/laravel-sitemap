@@ -43,8 +43,11 @@ class Sitemap
         return view('ichi-sitemap::sitemap', ['urls' => $list]);
     }
 
-    public function writeToFile(string $path = 'sitemap.xml'): void
+    public function writeToFile(string $path = null): void
     {
+        if (!isset($path)) {
+            $path = public_path('sitemap.xml');
+        }
         ob_start();
         echo $this->render(false);
         $xml = ob_get_contents();
