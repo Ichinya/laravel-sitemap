@@ -13,9 +13,7 @@ class GenerateSitemap extends Command
 
     public function handle()
     {
-        dispatch(function () {
-            Sitemap::generate()
-                ->writeToFile(public_path('sitemap.xml'));
-        })->onQueue('low');
+        Sitemap::generate()->writeToFile();
+        return 1;
     }
 }
