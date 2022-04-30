@@ -1,6 +1,6 @@
 <?php
 
-namespace Ichinya\LaravelSitemap\Contract;
+namespace Ichinya\LaravelSitemap\Contracts;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
